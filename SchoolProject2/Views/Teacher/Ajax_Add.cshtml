@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "Ajax_New Teacher";
+}
+
+<div id="containershow">
+    <nav>
+        <a  href="/Teacher/List">Back To Teachers</a>
+    </nav>
+    
+    <form id="teacher-registration">
+        <h2> Ajax Teacher registration</h2>
+        <div>
+            <label for="TeacherFname">First Name:</label>
+            <input type="text" id="TeacherFname" name="TeacherFname" required />
+
+        </div>
+        <div>
+            <label for="TeacherLname">Last Name:</label>
+            <input type="text" id="TeacherLname" name="TeacherLname" required />
+
+        </div>
+        <div>
+            <label for="TeacherNumber">Employee Number:</label>
+            <input type="text" id="TeacherNumber" name="TeacherNumber" required />
+        </div>
+        <div>
+            <label for="TeacherSalary">Salary:</label>
+            <input type="number" id="TeacherSalary" name="TeacherSalary" min="1" value="0" step=".01" required>
+        </div>
+        <div>
+            <input type="button" value="Create Teacher" id="btnCreate" />
+        </div>
+    </form>
+</div>
+
+
+
+

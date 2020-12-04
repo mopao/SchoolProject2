@@ -1,0 +1,72 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+
+ul#teacher-courses {
+    display: inline-grid;
+}
+
+    ul#teacher-courses li, ul#list-teachers li {
+        list-style-type: square;
+    }
+
+#list-teachers li a {
+    text-decoration: none;
+    color: dimgray;
+}
+
+h2 {
+    text-transform: uppercase;
+    font-size:1.6em;
+}
+
+form#profile {
+    background-color: darkseagreen;
+    padding: 0.3em 1em;
+    margin: 0 auto;
+    width: 50%;
+}
+
+form#teacher-registration {
+    background-color: lightblue;
+    padding: 0.3em 1em;
+    margin: 0 auto;
+    width: 40%;
+}
+
+form#teacher-registration >div{
+    margin-top: 1.5em;
+}
+
+form#teacher-registration > div label {
+    width: 10em;
+}
+
+form#teacher-registration > div:last-of-type{
+    text-align:center;
+}
+#link-delete-teacher{
+    cursor:pointer;
+}
+nav#nav-profile{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-around;
+}
+
+
