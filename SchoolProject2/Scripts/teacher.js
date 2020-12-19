@@ -41,6 +41,49 @@
 
 }
 
+function updateTeacher() {
+	//goal: send a request which looks like this:
+	//POST : http://localhost:51930/api/TeacherData/UpdateTeacher
+	//with POST data of a teacher
+
+	var URL = "http://localhost:51930/api/TeacherData/UpdateTeacher/";
+
+	var rq = new XMLHttpRequest();
+	var TeacherId = document.getElementById('TeacherId').value;
+	var TeacherFname = document.getElementById('TeacherFname').value;
+	var TeacherLname = document.getElementById('TeacherLname').value;
+	var TeacherNumber = document.getElementById('TeacherNumber').value;
+	var TeacherSalary = document.getElementById('TeacherSalary').value;
+
+
+
+	var TeacherData = {
+		"id": parseInt(TeacherId),
+		"firstname": TeacherFname,
+		"lastname": TeacherLname,
+		"employeeNumber": TeacherNumber,
+		"salary": Number.parseFloat(TeacherSalary)
+	};
+
+	// ajax query
+	rq.open("POST", URL, true);
+	rq.setRequestHeader("Content-Type", "application/json");
+	rq.onreadystatechange = function () {
+		//ready state should be 4 AND status should be 200
+		if (rq.readyState == 4 && rq.status == 204) {
+			//request is successful and the request is finished
+			//return to the list of teachers page
+			window.location.replace("http://localhost:51930/Teacher/Show/" + TeacherData.id);
+		}
+
+	}
+	
+	//POST information sent through the .send() method
+	rq.send(JSON.stringify(TeacherData));
+
+}
+
+
 function deleteTeacher() {
 	// get the teacher's id and name 
 	var teacherId = document.getElementById("teacherid").value;
@@ -74,6 +117,9 @@ function deleteTeacher() {
 window.onload = function () {
 	if (document.getElementById("btnCreate") !== null) {
 		document.getElementById("btnCreate").onclick = addTeacher;
+	}
+	if (document.getElementById("f_btnUpdate") !== null) {
+		document.getElementById("f_btnUpdate").onclick = updateTeacher;
 	}
 	if (document.getElementById("link-delete-teacher") !== null) {
 		document.getElementById("link-delete-teacher").onclick = deleteTeacher;

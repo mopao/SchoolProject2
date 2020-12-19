@@ -2,7 +2,10 @@
 @{
     ViewBag.Title = "Teachers List ";
 }
-
+<nav id="nav-profile">
+    <a href="/Teacher/Add">Add a teacher</a>
+    <a href="/Teacher/Ajax_Add">Add a teacher (ajax)</a>
+</nav>
 <h2>List of teachers</h2>
 <ul id="list-teachers">
     @foreach (SchoolProject2.Models.Teacher teacher in Model)

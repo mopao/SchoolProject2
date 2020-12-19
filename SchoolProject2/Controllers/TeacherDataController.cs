@@ -110,12 +110,14 @@ namespace SchoolProject2.Controllers
                     newTeacher.employeeNumber = ResultSet.GetString(3);
                     newTeacher.hireDate = ResultSet.GetDateTime(4);
                     newTeacher.salary = ResultSet.GetDecimal(5);
+
                 }
 
                 //Close the connection between the MySQL Database and the WebServer
                 Conn.Close();
 
             }
+
             //Return the final list of teachers names
             return newTeacher;
 
@@ -139,27 +141,66 @@ namespace SchoolProject2.Controllers
         [EnableCors(origins: "*", methods: "*", headers: "*")]
         public void AddTeacher([FromBody] Teacher newTeacher)
         {
-            //Create an instance of a connection
-            MySqlConnection Conn = school.AccessDatabase();
+            if (newTeacher.IsValid())
+            {
+                //Create an instance of a connection
+                MySqlConnection Conn = school.AccessDatabase();
 
-            //Open the connection between the web server and database
-            Conn.Open();
+                //Open the connection between the web server and database
+                Conn.Open();
 
-            //Establish a new command (query) for our database
-            MySqlCommand cmd = Conn.CreateCommand();
+                //Establish a new command (query) for our database
+                MySqlCommand cmd = Conn.CreateCommand();
 
-            //SQL QUERY
-            cmd.CommandText = "insert into teachers (teacherfname, teacherlname, employeenumber, hiredate, salary) " +
-                               "values (@TeacherFname,@TeacherLname,@TeacherNumber, Now(), @TeacherSalary)";
-            cmd.Parameters.AddWithValue("@TeacherFname", newTeacher.firstname);
-            cmd.Parameters.AddWithValue("@TeacherLname", newTeacher.lastname);
-            cmd.Parameters.AddWithValue("@TeacherNumber", newTeacher.employeeNumber);
-            cmd.Parameters.AddWithValue("@TeacherSalary", newTeacher.salary);
-            cmd.Prepare();
+                //SQL QUERY
+                cmd.CommandText = "insert into teachers (teacherfname, teacherlname, employeenumber, hiredate, salary) " +
+                                   "values (@TeacherFname,@TeacherLname,@TeacherNumber, Now(), @TeacherSalary)";
+                cmd.Parameters.AddWithValue("@TeacherFname", newTeacher.firstname);
+                cmd.Parameters.AddWithValue("@TeacherLname", newTeacher.lastname);
+                cmd.Parameters.AddWithValue("@TeacherNumber", newTeacher.employeeNumber);
+                cmd.Parameters.AddWithValue("@TeacherSalary", newTeacher.salary);
+                cmd.Prepare();
 
-            cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
 
-            Conn.Close();
+                Conn.Close();
+
+            }
+
+        }
+        /// <summary>
+        /// Update information about a teacher in the database
+        /// </summary>
+        /// <param name="newTeacher"> new information about the teacher</param>
+        /// <example>POST api/TeacherData/Update</example>
+        [HttpPost]
+        [EnableCors(origins: "*", methods: "*", headers: "*")]
+        public void UpdateTeacher( [FromBody]Teacher newTeacher)
+        {
+            if (newTeacher.IsValid())
+            {
+                MySqlConnection Conn = school.AccessDatabase();
+
+                //Open the connection between the web server and database
+                Conn.Open();
+
+                //Establish a new command (query) for our database
+                MySqlCommand cmd = Conn.CreateCommand();
+                //SQL QUERY
+                cmd.CommandText = "update teachers set teacherfname=@TeacherFname, teacherlname=@TeacherLname, " +
+                    "employeenumber=@TeacherNumber, salary=@TeacherSalary where teacherid=@TeacherId";
+
+                cmd.Parameters.AddWithValue("@TeacherFname", newTeacher.firstname);
+                cmd.Parameters.AddWithValue("@TeacherLname", newTeacher.lastname);
+                cmd.Parameters.AddWithValue("@TeacherNumber", newTeacher.employeeNumber);
+                cmd.Parameters.AddWithValue("@TeacherSalary", newTeacher.salary);
+                cmd.Parameters.AddWithValue("@TeacherId", newTeacher.id);
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                Conn.Close();
+            }
 
 
         }

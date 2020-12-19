@@ -69,4 +69,24 @@ nav#nav-profile{
     justify-content:space-around;
 }
 
+form#teacher_form_update{
+    background-color:antiquewhite;
+    margin-bottom:1em;
+    padding:1em;
+    width:45em;
+}
+
+form#teacher_form_update  div {
+    margin-bottom:1em;
+}
+
+form#teacher_form_update div > label {
+    display:inline-block;
+    width:15em;
+}
+
+form#teacher_form_update > div:last-of-type {
+    text-align:center;
+}
+
 

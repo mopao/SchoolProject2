@@ -48,16 +48,64 @@ namespace SchoolProject2.Controllers
                 {
                     // add the new class to the teacher
                     Class newClass = new Class();
-                    newClass.className = ResultSet["classname"].ToString();
-                    newClass.classCode = ResultSet["classcode"].ToString();
-                    newClass.startDate = ResultSet["startdate"].ToString();
-                    newClass.finishDate = ResultSet["finishdate"].ToString();
+                    newClass.className = ResultSet.GetString(5);
+                    newClass.classCode = ResultSet.GetString(1);
+                    newClass.startDate = ResultSet.GetDateTime(3);
+                    newClass.finishDate = ResultSet.GetDateTime(4);
                     classes.Add(newClass);
 
                 }
 
             }
             return classes;
+        }
+        /// <summary>
+        /// add class to a teacher
+        /// </summary>
+        /// <param name="teacherId"> id of the teacher</param>
+        /// <param name="newClass"> class to add to the teacher</param>
+        /// <example>
+        /// POST api/ClassData/AddClass 
+        /// FORM DATA / POST DATA / REQUEST BODY 
+        /// {
+        ///	"classcode":"http6778",
+        ///	"classname":"php language",
+        ///	"teacherid":"17",
+        ///	"startdate":"2021-01-18", 
+        ///	"finishdate":"2021-05-30"
+        /// }
+        /// </example>
+        [HttpPost]
+        public void AddClass( int teacherId, [FromBody] Class newClass)
+        {
+            // check if the finish date greater than the start date before inserting
+            if(newClass.IsValid())         
+            {
+                //Create an instance of a connection
+                MySqlConnection Conn = school.AccessDatabase();
+
+                //Open the connection between the web server and database
+                Conn.Open();
+
+                //Establish a new command (query) for our database
+                MySqlCommand cmd = Conn.CreateCommand();
+
+                //SQL QUERY
+                cmd.CommandText = "insert into classes (classcode, classname,teacherid ,startdate , finishdate) " +
+                                   "values (@code,@name,@teacherid, @begin, @end)";
+                cmd.Parameters.AddWithValue("@code", newClass.classCode);
+                cmd.Parameters.AddWithValue("@name", newClass.className);
+                cmd.Parameters.AddWithValue("@teacherid", teacherId);
+                cmd.Parameters.AddWithValue("@begin", newClass.startDate.Date);
+                cmd.Parameters.AddWithValue("@end", newClass.finishDate.Date);
+                cmd.Prepare();
+
+                cmd.ExecuteNonQuery();
+
+                Conn.Close();
+
+
+            }
         }
     }
 }
